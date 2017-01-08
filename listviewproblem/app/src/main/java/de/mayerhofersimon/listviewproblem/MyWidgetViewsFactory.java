@@ -59,6 +59,8 @@ public class MyWidgetViewsFactory implements RemoteViewsService.RemoteViewsFacto
         Item item = items.get(position);
 
         RemoteViews itemView = new RemoteViews(context.getPackageName(), R.layout.widget_listview_item);
+        // See accepted answer here: http://stackoverflow.com/questions/31713373/listview-in-widget-adds-randomly-items-on-scrolling-and-resizing-nested-remotev
+        itemView.removeAllViews(R.id.linearLayout_item_body);
 
         itemView.setTextViewText(R.id.textView_itemnr, item.getItemNr());
 
@@ -69,6 +71,12 @@ public class MyWidgetViewsFactory implements RemoteViewsService.RemoteViewsFacto
             subitem.setTextViewText(R.id.textView_1, s[0]);
             subitem.setTextViewText(R.id.textView_2, s[1]);
             subitem.setTextViewText(R.id.textView_3, s[2]);
+
+            // absent colors causing invisible content
+            // See accepted answer here: http://stackoverflow.com/questions/31713373/listview-in-widget-adds-randomly-items-on-scrolling-and-resizing-nested-remotev
+            subitem.setTextColor(R.id.textView_1, context.getResources().getColor(R.color.abc_primary_text_material_light));
+            subitem.setTextColor(R.id.textView_2, context.getResources().getColor(R.color.abc_primary_text_material_light));
+            subitem.setTextColor(R.id.textView_3, context.getResources().getColor(R.color.abc_primary_text_material_light));
 
             itemView.addView(R.id.linearLayout_item_body, subitem);
         }
